@@ -152,6 +152,10 @@ namespace DoorsExpanded
                 prefix: nameof(DoorExpandedBlueprintSpawnSetupPrefix));
             Patch(original: AccessTools.Method(typeof(Blueprint), nameof(Blueprint.Draw)),
                 prefix: nameof(DoorExpandedBlueprintDrawPrefix));
+
+            // Patches related to door remotes.
+            Patch(original: AccessTools.Method(typeof(FloatMenuMakerMap), "AddJobGiverWorkOrders"),
+                transpiler: nameof(DoorRemoteAddJobGiverWorkOrdersTranspiler));
         }
 
         private static HarmonyInstance harmony;
@@ -974,6 +978,55 @@ namespace DoorsExpanded
         private static readonly FastInvokeHandler Comps_PostDraw =
             MethodInvoker.GetHandler(AccessTools.Method(typeof(ThingWithComps), "Comps_PostDraw"));
         private static readonly object[] emptyObjArray = new object[0];
+
+        // FloatMenuMakerMap.AddJobGiverWorkOrders
+        public static IEnumerable<CodeInstruction> DoorRemoteAddJobGiverWorkOrdersTranspiler(IEnumerable<CodeInstruction> instructions)
+        {
+            // Workaround to remove the "Prioritize" prefix for the remote press/flip job in the float menu.
+            // This transforms the following code:
+            //  TranslatorFormattedStringExtensions.Translate("PrioritizeGeneric", ...)
+            // into:
+            //  TranslateRemovePrioritizeJobLabelPrefix("PrioritizeGeneric".Translate(...))
+
+            var methodof_TranslatorFormattedStringExtensions_Translate =
+                AccessTools.Method(typeof(TranslatorFormattedStringExtensions), nameof(TranslatorFormattedStringExtensions.Translate),
+                    new[] { typeof(string), typeof(NamedArgument), typeof(NamedArgument) });
+            var enumerator = instructions.GetEnumerator();
+
+            while (enumerator.MoveNext())
+            {
+                var instruction = enumerator.Current;
+                yield return instruction;
+                if (instruction.opcode == OpCodes.Ldstr && instruction.operand is "PrioritizeGeneric")
+                    break;
+            }
+
+            while (enumerator.MoveNext())
+            {
+                var instruction = enumerator.Current;
+                if (instruction.operand == methodof_TranslatorFormattedStringExtensions_Translate)
+                    break;
+                if (instruction.opcode.Name.StartsWith("ldloc"))
+                    yield return instruction;
+            }
+
+            yield return new CodeInstruction(OpCodes.Call,
+                AccessTools.Method(typeof(HarmonyPatches), nameof(TranslateCustomizeUseDoorRemoteJobLabel)));
+
+            while (enumerator.MoveNext())
+            {
+                yield return enumerator.Current;
+            }
+        }
+
+        private static string TranslateCustomizeUseDoorRemoteJobLabel(string translationKey, WorkGiver_Scanner scanner,
+            Thing thing)
+        {
+            if (scanner is WorkGiver_UseRemoteButton)
+                return "PH_UseButtonOrLever".Translate(thing.Label);
+            // Following is copied from FloatMenuMakerMap.AddJobGiverWorkOrders.
+            return translationKey.Translate(scanner.def.gerund, thing.Label);
+        }
 
         // Generic transpiler that transforms all following instances of code:
         //  thing is Building_Door door && door.Open

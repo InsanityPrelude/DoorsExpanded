@@ -319,10 +319,10 @@ namespace DoorsExpanded
 
         private static readonly MethodInfo methodof_Building_Door_FriendlyTouchedRecently =
             AccessTools.Property(typeof(Building_Door), "FriendlyTouchedRecently").GetGetMethod(true);
-        private static readonly AccessTools.FieldRef<Building_Door, bool> Building_Door_lastFriendlyTouchTick =
-            AccessTools.FieldRefAccess<Building_Door, bool>("lastFriendlyTouchTick");
-        private static readonly AccessTools.FieldRef<Building_DoorExpanded, bool> Building_DoorExpanded_lastFriendlyTouchTick =
-            AccessTools.FieldRefAccess<Building_DoorExpanded, bool>("lastFriendlyTouchTick");
+        private static readonly AccessTools.FieldRef<Building_Door, int> Building_Door_lastFriendlyTouchTick =
+            AccessTools.FieldRefAccess<Building_Door, int>("lastFriendlyTouchTick");
+        private static readonly AccessTools.FieldRef<Building_DoorExpanded, int> Building_DoorExpanded_lastFriendlyTouchTick =
+            AccessTools.FieldRefAccess<Building_DoorExpanded, int>("lastFriendlyTouchTick");
         private static readonly AccessTools.FieldRef<Building_Door, int> Building_Door_ticksUntilClose =
             AccessTools.FieldRefAccess<Building_Door, int>("ticksUntilClose");
         private static readonly AccessTools.FieldRef<Building_DoorExpanded, int> Building_DoorExpanded_ticksUntilClose =
