@@ -196,7 +196,8 @@ namespace DoorsExpanded
 
             // Patches related to door remotes.
             Patch(original: AccessTools.Method(typeof(FloatMenuMakerMap), "AddJobGiverWorkOrders"),
-                transpiler: nameof(DoorRemoteAddJobGiverWorkOrdersTranspiler));
+                transpiler: nameof(DoorRemoteAddJobGiverWorkOrdersTranspiler),
+                transpilerRelated: nameof(TranslateCustomizeUseDoorRemoteJobLabel));
         }
 
         private static HarmonyInstance harmony;
@@ -1068,6 +1069,7 @@ namespace DoorsExpanded
         private static string TranslateCustomizeUseDoorRemoteJobLabel(string translationKey, WorkGiver_Scanner scanner,
             Thing thing)
         {
+            DebugInspectorPatches.RegisterPatchCalled(nameof(TranslateCustomizeUseDoorRemoteJobLabel));
             if (scanner is WorkGiver_UseRemoteButton)
                 return "PH_UseButtonOrLever".Translate(thing.Label);
             // Following is copied from FloatMenuMakerMap.AddJobGiverWorkOrders.
