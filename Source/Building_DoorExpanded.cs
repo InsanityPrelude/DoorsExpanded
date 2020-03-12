@@ -381,6 +381,12 @@ namespace DoorsExpanded
 
         public override void Tick()
         {
+            // Workaround for MinifyEverything issue where reinstalling doors sometimes causes a transient and harmless NRE
+            // in GridsUtility.GetThingList. This also effects vanilla doors, which are fixed in a harmony patch
+            // (see HarmonyPatches.BuildingDoorTickPrefix).
+            if (!Spawned)
+                return;
+
             base.Tick();
 
             var occupiedRect = this.OccupiedRect();
