@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ModMetaData>
   <packageId>jecrell.doorsexpanded</packageId>
-  <name>Doors Expanded</name>
+  <name>Doors Expanded (Dev)</name>
   <author>Jecrell,lbmaian</author>
   <url>https://discord.gg/AaVFA7V</url>
   <supportedVersions>
@@ -17,7 +17,22 @@
       <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
     </li>
   </modDependencies>
-  <description>1.3.2.1 (08-13-2020)
+  <description>
+IMPORTANT: This is the dev/beta version of Doors Expanded with new doors, and misc fixes/improvements/compatibility, including explicit RimWorld 1.2 support. This version may be taken down upon request by Jecrell (if/when he returns).
+
+Detailed changelog since the official version: https://github.com/jecrell/DoorsExpanded/pull/29
+Full version changelog: https://github.com/lbmaian/DoorsExpanded/blob/master/About/Changelog.txt
+
+DO NOT USE with the official version of JecsTools - unfortunately, their subscription/activation are mutually exclusive. You will get a warning about duplicate packageId if you are subscribed to both versions (packageId is not changed for mod compatibility reasons).
+
+Notice for modders that depend on Doors Expanded: This version deprecates DoorExpandedDef in favor of new CompProperties_DoorExpanded.
+
+The official (and as of 08-11-2020, outdated) version of Doors Expanded is at:
+Steam: https://steamcommunity.com/sharedfiles/filedetails/?id=1316188771
+GitHub: https://github.com/jecrell/DoorsExpanded
+
+
+1.3.2.1 (08-13-2020)
 
 Adds new types and sizes of doors to RimWorld and an extensible framework for other mods to add such doors.
 
