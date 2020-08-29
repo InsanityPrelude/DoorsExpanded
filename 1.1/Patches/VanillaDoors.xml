@@ -42,10 +42,10 @@
           <li Class="DoorsExpanded.CompProperties_PostProcessText">
             <appendSizeToLabel>true</appendSizeToLabel>
           </li>
-          <li Class="DoorsExpanded.CompProperties_DoorExpanded">
+          <!--li Class="DoorsExpanded.CompProperties_DoorExpanded">
             <remoteDoor>true</remoteDoor>
             <doorType>Standard</doorType>
-          </li>
+          </li-->
         </value>
       </li>
     </operations>
